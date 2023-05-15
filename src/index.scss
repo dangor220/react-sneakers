@@ -69,4 +69,84 @@ svg {
 
 .main {
 	padding: 40px 60px;
+
+	.title {
+		margin-bottom: 30px;
+	}
+}
+.cards {
+	&__wrapper {
+		display: flex;
+		gap: 40px;
+
+		flex-wrap: wrap;
+	}
+}
+.card {
+	max-width: 210px;
+	background: #ffffff;
+	border: 1px solid #f3f3f3;
+	border-radius: 40px;
+	padding: 20px 29px 34px 29px;
+	transition: 0.3s ease-in;
+
+	&:hover {
+		background: #ffffff;
+		border: 1px solid #f8f8f8;
+		box-shadow: 0px 14px 30px rgba(0, 0, 0, 0.05);
+	}
+
+	&__image {
+		display: flex;
+		justify-content: center;
+
+		margin-bottom: 14px;
+		img {
+			width: 132px;
+			height: 112px;
+		}
+	}
+
+	&__title {
+		font-size: 14px;
+		line-height: 17px;
+		margin-bottom: 14px;
+	}
+	&__add {
+		display: flex;
+		justify-content: space-between;
+	}
+	&__price {
+		display: flex;
+		flex-direction: column;
+
+		font-weight: 500;
+		font-size: 11px;
+		line-height: 13px;
+		text-transform: uppercase;
+
+		color: #bdbdbd;
+
+		span {
+			margin-top: 2px;
+
+			font-weight: 700;
+			font-size: 14px;
+			text-transform: lowercase;
+
+			color: #000000;
+		}
+	}
+	&__button {
+		width: 32px;
+		height: 32px;
+		background: #ffffff;
+		border: 1px solid #f2f2f2;
+		border-radius: 8px;
+
+		svg {
+			width: 11px;
+			height: 11px;
+		}
+	}
 }
