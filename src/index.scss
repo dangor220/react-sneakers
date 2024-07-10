@@ -147,4 +147,19 @@ main {
     background-color: inherit;
 
     cursor: pointer;
+
+    svg {
+        path {
+            transition: 0.3s linear all;
+        }
+    }
+
+    &:hover {
+        svg {
+            path {
+                transition: 0.3s linear all;
+                fill: #ff8585;
+            }
+        }
+    }
 }
