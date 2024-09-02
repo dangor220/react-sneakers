@@ -18,7 +18,9 @@ export default function Drawer({ visible }) {
                                 alt="Nike Air"
                             />
                             <div>
-                                <p class="mb-5">Men's shoes Nike Air Max 270</p>
+                                <p className="mb-5">
+                                    Men's shoes Nike Air Max 270
+                                </p>
                                 <b>15 999 ₽</b>
                             </div>
                             <button className="button button__remove"></button>
@@ -33,7 +35,7 @@ export default function Drawer({ visible }) {
                                 alt="Nike Air"
                             />
                             <div>
-                                <p class="mb-5">
+                                <p className="mb-5">
                                     Men's shoes Puma X Aka Boku Future Rider
                                 </p>
                                 <b>19 999 ₽</b>
@@ -66,16 +68,16 @@ export default function Drawer({ visible }) {
                         <path
                             d="M1 7H14.7143"
                             stroke="white"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                         />
                         <path
                             d="M8.71436 1L14.7144 7L8.71436 13"
                             stroke="white"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                         />
                     </svg>
                 </button>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function Button() {
+export default function Button({ info }) {
     const [buyBtn, setBuyBtn] = useState(false);
     let handleAddded = () => {
         setBuyBtn((state) => !state);

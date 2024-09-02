@@ -1,6 +1,6 @@
-export default function Favorite() {
+export default function Favorite({ classFavorite }) {
     return (
-        <div className="card__favorite">
+        <div className={classFavorite}>
             <svg
                 height="17px"
                 width="25px"
