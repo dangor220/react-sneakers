@@ -1,32 +1,48 @@
-export default function Drawer({ visible }) {
+export default function Drawer({
+	visible,
+	onClickCart,
+	data = [],
+	handleRemoveItem,
+}) {
+	const handleOverlay = (e) => {
+		if (e.target.classList.contains('overlay')) {
+			onClickCart();
+		}
+	};
+	const handleRemove = (item) => {
+		handleRemoveItem(item);
+	};
 	return (
-		<div className={visible ? 'overlay overlay__active' : 'overlay'}>
+		<div
+			onClick={(e) => {
+				handleOverlay(e);
+			}}
+			className={visible ? 'overlay overlay__active' : 'overlay'}
+		>
 			<div className="drawer">
 				<h2>
-					Cart <button className="button button__close button__remove"></button>
+					Cart{' '}
+					<button
+						onClick={onClickCart}
+						className="button button__close button__remove"
+					></button>
 				</h2>
 				<ul className="drawer__items">
-					<li className="cart">
-						<div className="cart__item">
-							<img width={80} src="/img/sneakers/nike-air.jpg" alt="Nike Air" />
-							<div>
-								<p className="mb-5">Men's shoes Nike Air Max 270</p>
-								<b>15 999 ₽</b>
+					{data.map((item) => (
+						<li className="cart" key={item.id}>
+							<div className="cart__item">
+								<img width={80} src={item.image} alt="Nike Air" />
+								<div>
+									<p className="mb-5">{item.name}</p>
+									<b>{item.price}</b>
+								</div>
+								<button
+									className="button button__remove"
+									onClick={() => handleRemove(item)}
+								></button>
 							</div>
-							<button className="button button__remove"></button>
-						</div>
-					</li>
-
-					<li className="cart">
-						<div className="cart__item">
-							<img width={80} src="/img/sneakers/puma.jpg" alt="Nike Air" />
-							<div>
-								<p className="mb-5">Men's shoes Puma X Aka Boku Future Rider</p>
-								<b>19 999 ₽</b>
-							</div>
-							<button className="button button__remove"></button>
-						</div>
-					</li>
+						</li>
+					))}
 				</ul>
 				<div className="drawer__summary">
 					<div>
