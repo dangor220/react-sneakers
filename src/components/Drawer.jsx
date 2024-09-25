@@ -11,6 +11,7 @@ export default function Drawer({
 	};
 	const handleRemove = (item) => {
 		handleRemoveItem(item);
+		
 	};
 	return (
 		<div

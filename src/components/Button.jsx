@@ -10,7 +10,13 @@ export default function Button({ info, handleClick, cartItems }) {
 				setBuyBtn(!buyBtn);
 			}
 		}
+		if (cartItems) {
+			cartItems.forEach((item) =>
+				item.id === info.id ? setBuyBtn(true) : false
+			);
+		}
 	}, [cartItems, buyBtn, info.id]);
+
 	let handleAddded = () => {
 		handleClick(info);
 

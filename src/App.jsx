@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import Card from './components/Card';
 import Drawer from './components/Drawer';
 import Header from './components/Header';
@@ -10,23 +11,41 @@ function App() {
 	const [searchValue, setSearchValue] = useState('');
 
 	useEffect(() => {
-		fetch('https://66df1194de4426916ee37385.mockapi.io/items')
-			.then((response) => response.json())
-			.then((data) => setItems(data));
+		axios
+			.get('https://66df1194de4426916ee37385.mockapi.io/items')
+			.then((response) => setItems(response.data));
+
+		axios
+			.get('https://66df1194de4426916ee37385.mockapi.io/card')
+			.then((response) => setCartItems(response.data));
 	}, []);
 
-	const handleClickPlus = (obj) => {
+	const handleClickPlus = async (obj) => {
 		let exist = false;
 		cartItems.forEach((item) => (item.id === obj.id ? (exist = true) : false));
 		if (!exist) {
+			axios.post('https://66df1194de4426916ee37385.mockapi.io/card', obj);
 			setCartItems((prev) => [...prev, obj]);
 		} else {
 			handleRemoveItem(obj);
 		}
+
 		exist = false;
 	};
+
 	const handleRemoveItem = (obj) => {
 		setCartItems([...cartItems.filter((item) => item.id !== obj.id)]);
+		axios
+			.get('https://66df1194de4426916ee37385.mockapi.io/card')
+			.then((res) => {
+				res.data.filter((items) =>
+					items.id == obj.id
+						? axios.delete(
+								`https://66df1194de4426916ee37385.mockapi.io/card/${items.position}`
+						  )
+						: false
+				);
+			});
 	};
 
 	const handleSearch = (event) => {
