@@ -39,7 +39,7 @@ function App() {
 			.get('https://66df1194de4426916ee37385.mockapi.io/card')
 			.then((res) => {
 				res.data.filter((items) =>
-					items.id == obj.id
+					items.id === obj.id
 						? axios.delete(
 								`https://66df1194de4426916ee37385.mockapi.io/card/${items.position}`
 						  )
