@@ -55,12 +55,37 @@ body {
 
 	transition: 0.5s right ease;
 
-	h2 {
+	&__title {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		margin: 0;
 		margin-bottom: 30px;
+	}
+	&__wrapper {
+		display: flex;
+		flex-direction: column;
+		flex: 1 1 auto;
+	}
+	&__empty {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+
+		h2 {
+			margin-bottom: 9px;
+		}
+
+		p {
+			margin-top: 0;
+			margin-bottom: 40px;
+			line-height: 150%;
+			color: #000;
+			opacity: 0.4;
+		}
 	}
 
 	&__items {
@@ -291,5 +316,22 @@ main {
 		//     background-image: url('../public/img/arrow-order.svg');
 		//     background-size: contain;
 		// }
+	}
+
+	&__back {
+		max-width: 245px;
+		padding: 24px 20px;
+
+		svg {
+			left: 33px;
+			transition: 0.3s all ease-in-out;
+			transform: rotate(180deg);
+		}
+
+		&:hover {
+			svg {
+				transform: translateX(-8px) rotate(180deg);
+			}
+		}
 	}
 }
