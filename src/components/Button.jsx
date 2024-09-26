@@ -4,7 +4,7 @@ export default function Button({ info, handleClick, cartItems }) {
 	const [buyBtn, setBuyBtn] = useState(false);
 	useEffect(() => {
 		if (buyBtn) {
-			const exists = cartItems.some((item) => item.id === info.id);
+			const exists = cartItems.some((item) => item.uid === info.uid);
 
 			if (!exists) {
 				setBuyBtn(!buyBtn);
@@ -12,10 +12,10 @@ export default function Button({ info, handleClick, cartItems }) {
 		}
 		if (cartItems) {
 			cartItems.forEach((item) =>
-				item.id === info.id ? setBuyBtn(true) : false
+				item.uid === info.uid ? setBuyBtn(true) : false
 			);
 		}
-	}, [cartItems, buyBtn, info.id]);
+	}, [cartItems, buyBtn, info.uid]);
 
 	let handleAddded = () => {
 		handleClick(info);

@@ -33,7 +33,7 @@
 		}
 	}
 
-	&__favorite {
+	&__favourite {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -53,6 +53,13 @@
 		}
 
 		&:hover {
+			svg {
+				stroke: #ff8585;
+				fill: #ff8585;
+				transition: 0.3s ease-in all;
+			}
+		}
+		&_active {
 			svg {
 				stroke: #ff8585;
 				fill: #ff8585;

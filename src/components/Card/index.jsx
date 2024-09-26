@@ -1,17 +1,35 @@
 import Button from '../Button';
-import Favorite from '../Favorite';
+import Favourite from '../Favourite';
 import styles from './Card.module.scss';
 
-export default function Card({ data, search, handleClickPlus, cartItems }) {
+export default function Card({
+	data,
+	favourite,
+	search,
+	handleClickPlus,
+	handleFavourite,
+	cartItems,
+}) {
+
 	return (
 		<div className={styles.card}>
 			{data
-				.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
-				.map(({ name, price, image, id }) => {
+				.filter((item) =>
+					item.name.toLowerCase().includes(search.toLowerCase())
+				)
+				.map(({ name, price, image, uid }) => {
 					return (
-						<div className={styles.card__item} key={id}>
-							<Favorite classFavorite={styles.card__favorite} />
-							<img width={133} height={112} src={image} alt={name} />
+						<div className={styles.card__item} key={uid}>
+							<Favourite
+								handleFavourite={() =>
+									handleFavourite({ name, price, image, uid })
+								}
+								classFavourite={styles.card__favourite}
+								classActive={styles.card__favourite_active}
+								favouriteData={favourite}
+								info={uid}
+							/>
+							<img wuidth={133} height={112} src={image} alt={name} />
 							<p>{name}</p>
 							<div className="d-flex justify-between">
 								<div>
@@ -20,7 +38,7 @@ export default function Card({ data, search, handleClickPlus, cartItems }) {
 								</div>
 								<Button
 									info={{
-										id,
+										uid,
 										name,
 										price,
 										image,

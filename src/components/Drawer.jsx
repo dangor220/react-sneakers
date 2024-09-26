@@ -1,6 +1,7 @@
 export default function Drawer({
 	visible,
 	onClickCart,
+	calcPrice,
 	data = [],
 	handleRemoveItem,
 }) {
@@ -11,6 +12,9 @@ export default function Drawer({
 	};
 	const handleRemove = (item) => {
 		handleRemoveItem(item);
+	};
+	const getTax = (percent) => {
+		return Math.floor(calcPrice() * (percent / 100));
 	};
 
 	return (
@@ -32,7 +36,7 @@ export default function Drawer({
 					<div className="drawer__wrapper">
 						<ul className="drawer__items">
 							{data.map((item) => (
-								<li className="cart" key={item.id}>
+								<li className="cart" key={item.uid}>
 									<div className="cart__item">
 										<img width={80} src={item.image} alt="Nike Air" />
 										<div>
@@ -51,12 +55,12 @@ export default function Drawer({
 							<div>
 								<span>Total:</span>
 								<span className="dash"></span>
-								<b>{30000}₽</b>
+								<b>{calcPrice()} ₽</b>
 							</div>
 							<div>
 								<span>Tax 5%:</span>
 								<span className="dash"></span>
-								<b>{1074}₽</b>
+								<b>{getTax(5)} ₽</b>
 							</div>
 						</div>
 						<button className="button button__order">

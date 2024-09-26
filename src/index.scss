@@ -124,7 +124,18 @@ body {
 	margin-bottom: 20px;
 
 	&__btn {
+		display: flex;
 		cursor: pointer;
+		span {
+			font-weight: 600;
+			font-size: 14px;
+			color: #5c5c5c;
+		}
+
+		// &-favorite,
+		// &-profile {
+		// 	cursor: pointer;
+		// }
 	}
 
 	&__item {
@@ -155,6 +166,7 @@ body {
 // header styles
 
 header {
+	border-bottom: 1px solid #f4f4f4;
 	img {
 		margin-right: 15px;
 	}
@@ -167,13 +179,18 @@ header {
 
 // main styles
 main {
-	padding: 0 60px 40px 60px;
+	padding: 40px 60px 40px 60px;
 }
 
 .search {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
+	h1 {
+		margin: 0;
+		font-size: 2rem;
+	}
 
 	&__block {
 		display: flex;
@@ -332,6 +349,29 @@ main {
 			svg {
 				transform: translateX(-8px) rotate(180deg);
 			}
+		}
+	}
+}
+
+// Favourite & profile page
+
+.favourite,
+.profile {
+	padding: 39px 60px;
+
+	&__header {
+		display: flex;
+		align-items: center;
+
+		h2 {
+			margin: 0;
+			margin-bottom: 3px;
+			font-size: 2rem;
+			font-weight: 700;
+		}
+
+		svg {
+			margin-right: 20px;
 		}
 	}
 }
