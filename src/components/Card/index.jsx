@@ -10,7 +10,6 @@ export default function Card({
 	handleFavourite,
 	cartItems,
 }) {
-
 	return (
 		<div className={styles.card}>
 			{data

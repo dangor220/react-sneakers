@@ -5,7 +5,7 @@ import './index.scss';
 import 'macro-css';
 
 import App from './App';
-import Favourite from './pages/Favourite';
+import Favourite from './pages/Favor';
 import Profile from './pages/Profile';
 
 const router = createBrowserRouter([

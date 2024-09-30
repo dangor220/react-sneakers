@@ -2,48 +2,16 @@ import { Link } from 'react-router-dom';
 import styles from '../components/Card/Card.module.scss';
 import Button from '../components/Button';
 import Favourite from '../components/Favourite';
-import axios from 'axios';
 
-export default function Profile({
+export default function Favor({
 	favourite,
 	handleFavourite,
 	handleClickPlus,
 	cartItems,
-	userOrders,
-	setUserOrders,
 }) {
-	const handleRemoveOrder = (info) => {
-		axios
-			.get('https://ed0e52336482f229.mokky.dev/orders')
-			.then(async (res) => {
-				for (let i = 1; i <= res.data.length; i++) {
-					await axios.delete(`https://ed0e52336482f229.mokky.dev/orders/${i}`);
-				}
-			})
-			.then(async () => {
-				const updateOrders = userOrders.filter(
-					(item) => item.uid !== info.uid || item.orderID !== info.orderID
-				);
-				const groupedByOrderID = updateOrders.reduce((acc, item) => {
-					if (!acc[item.orderID]) {
-						acc[item.orderID] = [];
-					}
-					acc[item.orderID].push(item);
-					return acc;
-				}, {});
-				const result = Object.values(groupedByOrderID);
-
-				if (result.length !== 0) {
-					await axios.post('https://ed0e52336482f229.mokky.dev/orders', result);
-				}
-
-				setUserOrders(updateOrders);
-			});
-	};
-
 	return (
 		<div className="favor">
-			{userOrders.length !== 0 ? (
+			{favourite.length !== 0 ? (
 				<>
 					<div className="favor__header">
 						<Link to="/">
@@ -72,14 +40,14 @@ export default function Profile({
 								/>
 							</svg>
 						</Link>
-						<h2>My orders</h2>
+						<h2>My favorites</h2>
 					</div>
 					<div className={styles.card}>
-						{userOrders &&
-							userOrders.map(({ name, price, image, uid, orderID }) => {
+						{favourite &&
+							favourite.map(({ name, price, image, uid }) => {
 								return (
-									<div className={styles.card__item} key={orderID + '' + uid}>
-										{/* <Favourite
+									<div className={styles.card__item} key={uid}>
+										<Favourite
 											handleFavourite={() =>
 												handleFavourite({ name, price, image, uid })
 											}
@@ -87,7 +55,7 @@ export default function Profile({
 											classActive={styles.card__favourite_active}
 											favouriteData={favourite}
 											info={uid}
-										/> */}
+										/>
 										<img wuidth={133} height={112} src={image} alt={name} />
 										<p>{name}</p>
 										<div className="d-flex justify-between">
@@ -95,18 +63,16 @@ export default function Profile({
 												<span className="d-flex flex-column">Price:</span>
 												<b>{price} ₽</b>
 											</div>
-											<button
-												onClick={() => {
-													handleRemoveOrder({
-														name,
-														price,
-														image,
-														uid,
-														orderID,
-													});
+											<Button
+												info={{
+													uid,
+													name,
+													price,
+													image,
 												}}
-												className="button button__close button__remove"
-											></button>
+												handleClick={handleClickPlus}
+												cartItems={cartItems}
+											/>
 										</div>
 									</div>
 								);
@@ -115,9 +81,9 @@ export default function Profile({
 				</>
 			) : (
 				<div className="empty drawer__empty favor__empty">
-					<img src="./img/no-orders.png" alt="box" />
-					<h2>You don't have any orders(</h2>
-					<p>Go to the catalog and select at least one product to order.</p>
+					<img src="./img/empty-bookmarks.png" alt="box" />
+					<h2>There are no bookmarks :(</h2>
+					<p>You haven't added anything to your bookmarks</p>
 					<Link className="btn-back" to="/">
 						<button className="button  button__order button__back">
 							<svg

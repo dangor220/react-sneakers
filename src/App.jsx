@@ -4,6 +4,8 @@ import axios from 'axios';
 import Drawer from './components/Drawer';
 import Header from './components/Header';
 import Home from './pages/Home';
+import Favourite from './pages/Favor';
+import Profile from './pages/Profile';
 
 function App() {
 	const [items, setItems] = useState([]);
@@ -11,6 +13,7 @@ function App() {
 	const [cart, setCart] = useState(false);
 	const [searchValue, setSearchValue] = useState('');
 	const [favourite, setFavourite] = useState([]);
+	const [userOrders, setUserOrders] = useState([]);
 
 	useEffect(() => {
 		axios.get('https://ed0e52336482f229.mokky.dev/items').then((response) => {
@@ -24,7 +27,24 @@ function App() {
 		axios
 			.get('https://ed0e52336482f229.mokky.dev/favourites')
 			.then((response) => setFavourite(response.data));
+		getUserOrders();
 	}, []);
+
+	const getUserOrders = () => {
+		axios.get('https://ed0e52336482f229.mokky.dev/orders').then((res) => {
+			let data = [];
+			res.data.forEach((order) => {
+				Object.values(order).forEach((item) => {
+					if (typeof item !== 'number') {
+						let ordersData = Object.assign({}, item);
+						ordersData.orderID = order.id;
+						data.push(ordersData);
+					}
+				});
+			});
+			setUserOrders(data);
+		});
+	};
 
 	const getTotalPrice = () => {
 		return cartItems.reduce((acc, value) => (acc += value.price), 0);
@@ -85,6 +105,12 @@ function App() {
 			);
 		});
 	};
+	const handleCompleteOrder = () => {
+		cartItems.forEach((item) => {
+			handleRemoveItem(item);
+			setCartItems([]);
+		});
+	};
 
 	return (
 		<>
@@ -93,31 +119,55 @@ function App() {
 					onClickCart={() => setCart(!cart)}
 					calcPrice={getTotalPrice}
 					handleRemoveItem={handleRemoveItem}
+					handleCompleteOrder={handleCompleteOrder}
+					getUserOrders={getUserOrders}
 					visible={cart}
 					data={cartItems}
 				/>
 				<Header onClickCart={() => setCart(!cart)} calcPrice={getTotalPrice} />
 
-				<div id="detail">
-					<Outlet />
-				</div>
-
 				<Routes>
-					<Route
-						path="/"
-						element={
-							<Home
-								items={items}
-								favourite={favourite}
-								cartItems={cartItems}
-								searchValue={searchValue}
-								setSearchValue={setSearchValue}
-								handleFavourite={handleFavourite}
-								handleSearch={handleSearch}
-								handleClickPlus={handleClickPlus}
-							/>
-						}
-					/>
+					<Route element={<Outlet />}>
+						<Route
+							path="/"
+							element={
+								<Home
+									items={items}
+									favourite={favourite}
+									cartItems={cartItems}
+									searchValue={searchValue}
+									setSearchValue={setSearchValue}
+									handleFavourite={handleFavourite}
+									handleSearch={handleSearch}
+									handleClickPlus={handleClickPlus}
+								/>
+							}
+						/>
+						<Route
+							path="/favourite"
+							element={
+								<Favourite
+									favourite={favourite}
+									handleClickPlus={handleClickPlus}
+									cartItems={cartItems}
+									handleFavourite={handleFavourite}
+								/>
+							}
+						/>
+						<Route
+							path="/profile"
+							element={
+								<Profile
+									favourite={favourite}
+									handleClickPlus={handleClickPlus}
+									cartItems={cartItems}
+									handleFavourite={handleFavourite}
+									userOrders={userOrders}
+									setUserOrders={setUserOrders}
+								/>
+							}
+						/>
+					</Route>
 				</Routes>
 			</div>
 		</>

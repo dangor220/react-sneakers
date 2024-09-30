@@ -11,6 +11,7 @@ body {
 .wrapper {
 	max-width: 1080px;
 	margin: 85px auto;
+	// min-height: 100vh;
 
 	background: #ffffff;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
@@ -62,32 +63,11 @@ body {
 		margin: 0;
 		margin-bottom: 30px;
 	}
-	&__wrapper {
-		display: flex;
-		flex-direction: column;
-		flex: 1 1 auto;
-	}
-	&__empty {
-		display: flex;
-		flex: 1 1 auto;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		text-align: center;
-
-		h2 {
-			margin-bottom: 9px;
-		}
-
-		p {
-			margin-top: 0;
-			margin-bottom: 40px;
-			line-height: 150%;
-			color: #000;
-			opacity: 0.4;
-		}
-	}
-
+	// &__wrapper {
+	// 	display: flex;
+	// 	flex-direction: column;
+	// 	flex: 1 1 auto;
+	// }
 	&__items {
 		flex: 1 1 auto;
 		overflow: auto;
@@ -111,6 +91,26 @@ body {
 				margin: 0 10px 0 10px;
 				border-bottom: 1px dashed #dfdfdf;
 			}
+		}
+	}
+	&__empty {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+
+		h2 {
+			margin-bottom: 9px;
+		}
+
+		p {
+			margin-top: 0;
+			margin-bottom: 40px;
+			line-height: 150%;
+			color: #000;
+			opacity: 0.4;
 		}
 	}
 }
@@ -223,6 +223,10 @@ main {
 			right: 10px;
 		}
 	}
+}
+.btn-back {
+	display: inline-block;
+	min-width: 245px;
 }
 
 .button {
@@ -355,9 +359,18 @@ main {
 
 // Favourite & profile page
 
-.favourite,
+.favor,
 .profile {
+	display: flex;
+	flex-direction: column;
+	min-height: calc(100vh - 300px);
 	padding: 39px 60px;
+
+	&__empty {
+		img {
+			width: 70px;
+		}
+	}
 
 	&__header {
 		display: flex;
