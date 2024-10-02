@@ -24,6 +24,7 @@ export default function Profile({
 				const updateOrders = userOrders.filter(
 					(item) => item.uid !== info.uid || item.orderID !== info.orderID
 				);
+
 				const groupedByOrderID = updateOrders.reduce((acc, item) => {
 					if (!acc[item.orderID]) {
 						acc[item.orderID] = [];
@@ -34,7 +35,9 @@ export default function Profile({
 				const result = Object.values(groupedByOrderID);
 
 				if (result.length !== 0) {
-					await axios.post('https://ed0e52336482f229.mokky.dev/orders', result);
+					result.forEach(async (item) => {
+						await axios.post('https://ed0e52336482f229.mokky.dev/orders', item);
+					});
 				}
 
 				setUserOrders(updateOrders);

@@ -5,9 +5,9 @@ export default function Drawer({
 	visible,
 	onClickCart,
 	calcPrice,
-	data = [],
+	cartItems = [],
+	handleClearCart,
 	handleRemoveItem,
-	handleCompleteOrder,
 	getUserOrders,
 }) {
 	const [order, setOrder] = useState(false);
@@ -22,8 +22,8 @@ export default function Drawer({
 	};
 	const handleBuyBtn = () => {
 		setOrder(true);
-		handleCompleteOrder();
-		let order = data.map(({ image, name, price, uid }) => ({
+
+		let order = cartItems.map(({ image, name, price, uid }) => ({
 			image,
 			name,
 			price,
@@ -37,6 +37,8 @@ export default function Drawer({
 					getUserOrders();
 				});
 		}
+
+		handleClearCart();
 	};
 	const handleOrder = () => {
 		if (order) {
@@ -66,10 +68,10 @@ export default function Drawer({
 					></button>
 				</h2>
 				{!order ? (
-					data.length !== 0 ? (
+					cartItems.length !== 0 ? (
 						<>
 							<ul className="drawer__items">
-								{data.map((item) => (
+								{cartItems.map((item) => (
 									<li className="cart" key={item.uid}>
 										<div className="cart__item">
 											<img width={80} src={item.image} alt="Nike Air" />

@@ -3,23 +3,21 @@ import { useEffect, useState } from 'react';
 export default function Button({ info, handleClick, cartItems }) {
 	const [buyBtn, setBuyBtn] = useState(false);
 	useEffect(() => {
-		if (buyBtn) {
-			const exists = cartItems.some((item) => item.uid === info.uid);
-
-			if (!exists) {
-				setBuyBtn(!buyBtn);
-			}
-		}
-		if (cartItems) {
+		if (cartItems.length !== 0) {
 			cartItems.forEach((item) =>
 				item.uid === info.uid ? setBuyBtn(true) : false
 			);
 		}
-	}, [cartItems, buyBtn, info.uid]);
+		if (buyBtn) {
+			const exists = cartItems.some((item) => item.uid === info.uid);
+			if (!exists) {
+				setBuyBtn(false);
+			}
+		}
+	}, [cartItems]);
 
 	let handleAddded = () => {
 		handleClick(info);
-
 		setBuyBtn(!buyBtn);
 	};
 	return (

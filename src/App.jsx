@@ -52,9 +52,9 @@ function App() {
 
 	const handleClickPlus = (obj) => {
 		let exist = false;
-		cartItems.forEach((item) =>
-			item.uid === obj.uid ? (exist = true) : false
-		);
+		cartItems.forEach((item) => {
+			return item.uid === obj.uid ? (exist = true) : false;
+		});
 		if (!exist) {
 			axios.post('https://ed0e52336482f229.mokky.dev/cards', obj);
 			setCartItems((prev) => [...prev, obj]);
@@ -105,11 +105,17 @@ function App() {
 			);
 		});
 	};
-	const handleCompleteOrder = () => {
-		cartItems.forEach((item) => {
-			handleRemoveItem(item);
-			setCartItems([]);
-		});
+
+	const handleClearCart = async () => {
+		setCartItems([]);
+		const response = await axios.get(
+			'https://ed0e52336482f229.mokky.dev/cards'
+		);
+		const items = response.data;
+
+		for (const item of items) {
+			await axios.delete(`https://ed0e52336482f229.mokky.dev/cards/${item.id}`);
+		}
 	};
 
 	return (
@@ -119,10 +125,11 @@ function App() {
 					onClickCart={() => setCart(!cart)}
 					calcPrice={getTotalPrice}
 					handleRemoveItem={handleRemoveItem}
-					handleCompleteOrder={handleCompleteOrder}
 					getUserOrders={getUserOrders}
 					visible={cart}
-					data={cartItems}
+					cartItems={cartItems}
+					setCartItems={setCartItems}
+					handleClearCart={handleClearCart}
 				/>
 				<Header onClickCart={() => setCart(!cart)} calcPrice={getTotalPrice} />
 
