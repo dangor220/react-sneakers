@@ -1,4 +1,92 @@
 import Card from '../components/Card';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import 'swiper/css';
+import { useRef, useCallback, useState } from 'react';
+import { logDOM } from '@testing-library/react';
+
+const CustomSwiper = () => {
+	const sliderRef = useRef(null);
+	const [disabled, setDisabled] = useState(true);
+
+	const handlePrev = useCallback(() => {
+		if (!sliderRef.current) return;
+		sliderRef.current.swiper.slidePrev();
+	}, []);
+
+	const handleNext = useCallback(() => {
+		if (!sliderRef.current) return;
+		sliderRef.current.swiper.slideNext();
+	}, []);
+
+	return (
+		<div className="swiper-content">
+			<Swiper
+				ref={sliderRef}
+				className="mySwiper"
+				onReachBeginning={() => setDisabled(true)}
+				onReachEnd={() => setDisabled(false)}
+			>
+				<SwiperSlide>
+					<img src="/img/preview/1.webp" alt="preview-slider-1" />
+				</SwiperSlide>
+				<SwiperSlide>
+					<img src="/img/preview/2.webp" alt="preview-slider-2" />
+				</SwiperSlide>
+				<SwiperSlide>
+					<img src="/img/preview/3.webp" alt="preview-slider-3" />
+				</SwiperSlide>
+			</Swiper>
+			<div
+				className={
+					disabled
+						? 'swiper-content-prev swiper-content-prev-disabled'
+						: 'swiper-content-prev'
+				}
+				onClick={handlePrev}
+			>
+				<svg
+					width="7"
+					height="12"
+					viewBox="0 0 7 12"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M1 0.999999L6 6L1 11"
+						stroke="#C8C8C8"
+						strokeWidth="1.5"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					/>
+				</svg>
+			</div>
+			<div
+				className={
+					disabled ? 'swiper-content-next' : 'swiper-content-next-disabled'
+				}
+				onClick={handleNext}
+			>
+				<svg
+					width="7"
+					height="12"
+					viewBox="0 0 7 12"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M1 0.999999L6 6L1 11"
+						stroke="#C8C8C8"
+						strokeWidth="1.5"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					/>
+				</svg>
+			</div>
+		</div>
+	);
+};
+
 export default function Home({
 	items,
 	favourite,
@@ -11,6 +99,7 @@ export default function Home({
 }) {
 	return (
 		<main className="content">
+			<CustomSwiper />
 			<div className="search">
 				<h1>
 					{searchValue
