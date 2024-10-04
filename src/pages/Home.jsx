@@ -1,5 +1,6 @@
 import Card from '../components/Card';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
 
 import 'swiper/css';
 import { useRef, useCallback, useState } from 'react';
@@ -23,6 +24,8 @@ const CustomSwiper = () => {
 		<div className="swiper-content">
 			<Swiper
 				ref={sliderRef}
+				modules={[Autoplay]}
+				autoplay
 				className="mySwiper"
 				onReachBeginning={() => setDisabled(true)}
 				onReachEnd={() => setDisabled(false)}
