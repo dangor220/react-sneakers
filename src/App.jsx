@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Outlet, Routes, Route } from 'react-router-dom';
+
 import axios from 'axios';
 import Drawer from './components/Drawer';
 import Header from './components/Header';
@@ -14,36 +15,56 @@ function App() {
 	const [searchValue, setSearchValue] = useState('');
 	const [favourite, setFavourite] = useState([]);
 	const [userOrders, setUserOrders] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		axios.get('https://ed0e52336482f229.mokky.dev/items').then((response) => {
-			setItems(response.data);
-		});
+		async function fetchData() {
+			try {
+				setIsLoading(true);
+				const dataItems = await axios.get(
+					'https://ed0e52336482f229.mokky.dev/items'
+				);
 
-		axios
-			.get('https://ed0e52336482f229.mokky.dev/cards')
-			.then((response) => setCartItems(response.data));
+				const dataCards = await axios.get(
+					'https://ed0e52336482f229.mokky.dev/cards'
+				);
 
-		axios
-			.get('https://ed0e52336482f229.mokky.dev/favourites')
-			.then((response) => setFavourite(response.data));
-		getUserOrders();
+				const dataFavourites = await axios.get(
+					'https://ed0e52336482f229.mokky.dev/favourites'
+				);
+
+				setItems(dataItems.data);
+				setCartItems(dataCards.data);
+				setFavourite(dataFavourites.data);
+
+				getUserOrders();
+
+				setIsLoading(false);
+			} catch (error) {
+				console.log('Request error: ' + error);
+			}
+		}
+		fetchData();
 	}, []);
 
 	const getUserOrders = () => {
-		axios.get('https://ed0e52336482f229.mokky.dev/orders').then((res) => {
-			let data = [];
-			res.data.forEach((order) => {
-				Object.values(order).forEach((item) => {
-					if (typeof item !== 'number') {
-						let ordersData = Object.assign({}, item);
-						ordersData.orderID = order.id;
-						data.push(ordersData);
-					}
+		try {
+			axios.get('https://ed0e52336482f229.mokky.dev/orders').then((res) => {
+				let data = [];
+				res.data.forEach((order) => {
+					Object.values(order).forEach((item) => {
+						if (typeof item !== 'number') {
+							let ordersData = Object.assign({}, item);
+							ordersData.orderID = order.id;
+							data.push(ordersData);
+						}
+					});
 				});
+				setUserOrders(data);
 			});
-			setUserOrders(data);
-		});
+		} catch (error) {
+			console.log('Error in receiving goods ' + error);
+		}
 	};
 
 	const getTotalPrice = () => {
@@ -51,30 +72,40 @@ function App() {
 	};
 
 	const handleClickPlus = (obj) => {
-		let exist = false;
-		cartItems.forEach((item) => {
-			return item.uid === obj.uid ? (exist = true) : false;
-		});
-		if (!exist) {
-			axios.post('https://ed0e52336482f229.mokky.dev/cards', obj);
-			setCartItems((prev) => [...prev, obj]);
-		} else {
-			handleRemoveItem(obj);
-		}
+		try {
+			let exist = false;
+			cartItems.forEach((item) => {
+				return item.uid === obj.uid ? (exist = true) : false;
+			});
+			if (!exist) {
+				axios.post('https://ed0e52336482f229.mokky.dev/cards', obj);
+				setCartItems((prev) => [...prev, obj]);
+			} else {
+				handleRemoveItem(obj);
+			}
 
-		exist = false;
+			exist = false;
+		} catch (error) {
+			console.log('Error adding an item: ' + error);
+		}
 	};
 
 	const handleRemoveItem = (obj) => {
-		setCartItems([...cartItems.filter((item) => item.uid !== obj.uid)]);
+		try {
+			setCartItems([...cartItems.filter((item) => item.uid !== obj.uid)]);
 
-		axios.get('https://ed0e52336482f229.mokky.dev/cards').then((res) => {
-			res.data.filter((items) =>
-				items.uid === obj.uid
-					? axios.delete(`https://ed0e52336482f229.mokky.dev/cards/${items.id}`)
-					: false
-			);
-		});
+			axios.get('https://ed0e52336482f229.mokky.dev/cards').then((res) => {
+				res.data.filter((items) =>
+					items.uid === obj.uid
+						? axios.delete(
+								`https://ed0e52336482f229.mokky.dev/cards/${items.id}`
+						  )
+						: false
+				);
+			});
+		} catch (error) {
+			console.log('Product deletion error: ' + error);
+		}
 	};
 
 	const handleSearch = (event) => {
@@ -82,28 +113,38 @@ function App() {
 	};
 
 	const handleFavourite = (item) => {
-		let exist = favourite.some((elem) => elem.uid === item.uid);
+		try {
+			let exist = favourite.some((elem) => elem.uid === item.uid);
 
-		if (!exist) {
-			axios.post('https://ed0e52336482f229.mokky.dev/favourites', item);
-			setFavourite((prev) => [...prev, item]);
-		} else {
-			handleRemoveFavourite(item);
+			if (!exist) {
+				axios.post('https://ed0e52336482f229.mokky.dev/favourites', item);
+				setFavourite((prev) => [...prev, item]);
+			} else {
+				handleRemoveFavourite(item);
+			}
+		} catch (error) {
+			console.log(
+				'The favorites processing function ended with an error: ' + error
+			);
 		}
 	};
 
 	const handleRemoveFavourite = (item) => {
-		setFavourite([...favourite.filter((elem) => elem.uid !== item.uid)]);
+		try {
+			setFavourite([...favourite.filter((elem) => elem.uid !== item.uid)]);
 
-		axios.get('https://ed0e52336482f229.mokky.dev/favourites').then((res) => {
-			res.data.filter((items) =>
-				items.uid === item.uid
-					? axios.delete(
-							`https://ed0e52336482f229.mokky.dev/favourites/${items.id}`
-					  )
-					: false
-			);
-		});
+			axios.get('https://ed0e52336482f229.mokky.dev/favourites').then((res) => {
+				res.data.filter((items) =>
+					items.uid === item.uid
+						? axios.delete(
+								`https://ed0e52336482f229.mokky.dev/favourites/${items.id}`
+						  )
+						: false
+				);
+			});
+		} catch (error) {
+			console.log(`Couldn't delete from favorites due to an error: ` + error);
+		}
 	};
 
 	const handleClearCart = async () => {
@@ -147,6 +188,7 @@ function App() {
 									handleFavourite={handleFavourite}
 									handleSearch={handleSearch}
 									handleClickPlus={handleClickPlus}
+									isLoading={isLoading}
 								/>
 							}
 						/>

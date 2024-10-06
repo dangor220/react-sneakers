@@ -1,14 +1,14 @@
 import Card from '../components/Card';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
 
 import 'swiper/css';
 import { useRef, useCallback, useState } from 'react';
-import { logDOM } from '@testing-library/react';
 
 const CustomSwiper = () => {
 	const sliderRef = useRef(null);
-	const [disabled, setDisabled] = useState(true);
+
+	const [start, setStart] = useState(true);
+	const [end, setEnd] = useState(false);
 
 	const handlePrev = useCallback(() => {
 		if (!sliderRef.current) return;
@@ -24,11 +24,13 @@ const CustomSwiper = () => {
 		<div className="swiper-content">
 			<Swiper
 				ref={sliderRef}
-				modules={[Autoplay]}
-				autoplay
 				className="mySwiper"
-				onReachBeginning={() => setDisabled(true)}
-				onReachEnd={() => setDisabled(false)}
+				onReachBeginning={() => setStart(true)}
+				onReachEnd={() => setEnd(true)}
+				onFromEdge={() => {
+					setStart(false);
+					setEnd(false);
+				}}
 			>
 				<SwiperSlide>
 					<img src="/img/preview/1.webp" alt="preview-slider-1" />
@@ -42,7 +44,7 @@ const CustomSwiper = () => {
 			</Swiper>
 			<div
 				className={
-					disabled
+					start
 						? 'swiper-content-prev swiper-content-prev-disabled'
 						: 'swiper-content-prev'
 				}
@@ -66,7 +68,9 @@ const CustomSwiper = () => {
 			</div>
 			<div
 				className={
-					disabled ? 'swiper-content-next' : 'swiper-content-next-disabled'
+					end
+						? 'swiper-content-next swiper-content-next-disabled'
+						: 'swiper-content-next'
 				}
 				onClick={handleNext}
 			>
@@ -99,6 +103,7 @@ export default function Home({
 	handleFavourite,
 	handleSearch,
 	handleClickPlus,
+	isLoading,
 }) {
 	return (
 		<main className="content">
@@ -139,6 +144,7 @@ export default function Home({
 				handleClickPlus={handleClickPlus}
 				handleFavourite={handleFavourite}
 				cartItems={cartItems}
+				isLoading={isLoading}
 			/>
 		</main>
 	);

@@ -1,17 +1,8 @@
 import { Link } from 'react-router-dom';
 import styles from '../components/Card/Card.module.scss';
-import Button from '../components/Button';
-import Favourite from '../components/Favourite';
 import axios from 'axios';
 
-export default function Profile({
-	favourite,
-	handleFavourite,
-	handleClickPlus,
-	cartItems,
-	userOrders,
-	setUserOrders,
-}) {
+export default function Profile({ userOrders, setUserOrders }) {
 	const handleRemoveOrder = (info) => {
 		axios
 			.get('https://ed0e52336482f229.mokky.dev/orders')
@@ -82,16 +73,7 @@ export default function Profile({
 							userOrders.map(({ name, price, image, uid, orderID }) => {
 								return (
 									<div className={styles.card__item} key={orderID + '' + uid}>
-										{/* <Favourite
-											handleFavourite={() =>
-												handleFavourite({ name, price, image, uid })
-											}
-											classFavourite={styles.card__favourite}
-											classActive={styles.card__favourite_active}
-											favouriteData={favourite}
-											info={uid}
-										/> */}
-										<img wuidth={133} height={112} src={image} alt={name} />
+										<img width={133} height={112} src={image} alt={name} />
 										<p>{name}</p>
 										<div className="d-flex justify-between">
 											<div>
