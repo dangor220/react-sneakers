@@ -10,6 +10,7 @@ export default function Drawer({
 	handleRemoveItem,
 	getUserOrders,
 }) {
+	const [numberOrder, setNumberOrder] = useState(0);
 	const [order, setOrder] = useState(false);
 
 	const handleOverlay = (e) => {
@@ -31,6 +32,9 @@ export default function Drawer({
 		}));
 
 		if (order.length) {
+			axios.get('https://ed0e52336482f229.mokky.dev/orders').then((res) => {
+				setNumberOrder((res.data.length += 1));
+			});
 			axios
 				.post('https://ed0e52336482f229.mokky.dev/orders', order)
 				.then(() => {
@@ -166,7 +170,7 @@ export default function Drawer({
 					<div className="drawer__empty">
 						<img src="./img/order-completed.jpg" alt="box" />
 						<h2>The order has been placed!</h2>
-						<p>Your order #18 will be delivered by courier soon.</p>
+						<p>Your order #{numberOrder} will be delivered by courier soon.</p>
 						<button
 							className="button  button__order button__back"
 							onClick={handleOrder}

@@ -6,6 +6,9 @@
 	position: relative;
 
 	&__item {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 		position: relative;
 		// left: 36px;
 		border: 1px solid #f3f3f3;
