@@ -27,7 +27,7 @@ export default function Card({
 							favouriteData={favourite}
 							info={uid}
 						/>
-						<img wuidth={133} height={112} src={image} alt={name} />
+						<img width={133} height={112} src={image} alt={name} />
 						<p>{name}</p>
 						<div className="d-flex justify-between">
 							<div>
